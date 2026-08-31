@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/6mmq99Ejx8wwqG8k6YvEx2gWCbydFOoD/d97051c2-7eff-4ef7-b183-4cd62eb54d27/files/">
+<head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>L&A Odontologia Especializada — Odontologia especializada 24 horas</title>
@@ -46,6 +46,7 @@ tailwind.config = {
   ::selection { background: rgba(184,131,79,0.3); color:#1B140F; }
   :focus-visible { outline: 2px solid #B8834F; outline-offset: 3px; }
   .container-page { margin:0 auto; width:100%; max-width:72rem; padding:0 1.5rem; }
+  section[id], div[id] { scroll-margin-top: 7rem; }
   .eyebrow { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.28em; font-weight:600; color:#B8834F; }
   @media (min-width:768px){ .eyebrow{ font-size:0.875rem; } .container-page{ padding:0 2.5rem; } }
   .faq-body{ display:grid; grid-template-rows:0fr; opacity:0; transition:grid-template-rows .3s ease-out, opacity .3s ease-out; }
@@ -370,6 +371,20 @@ tailwind.config = {
     }
   });
 
+
+  // Anchor navigation -> scroll just below the fixed header (no black overlap)
+  var HEADER_OFFSET = 88;
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      if (!id || id.length < 2) return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var y = target.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    });
+  });
 
   // Menu mobile
   var menuBtn = document.getElementById('menuBtn');
